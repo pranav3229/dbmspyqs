@@ -26,6 +26,21 @@ having o.status='completed'
 order by oi.quantity desc limit 1;
 
 -- 1.5
+select u.first_name, u.last_name, u.email from users u 
+left join orders on u.user_id = orders.user_id where not exists (select user_id from orders);
+
+-- 1.6
+select c.name, sum(o.total_amount) from categories c 
+join products p on p.description = c.description
+join order_items oi on p.product_id = oi.product_id
+join orders o on o.order_id = oi.order_id
+group by c.category_id order by o.total_amount;
+
+-- 1.7
+select o.order_id, p.name, oi.quantity, oi.price from orders o
+join order_items oi on o.order_id = oi.order_id
+join products p on p.product_id = oi.product_id
+where o.user_id = 1;
 
 
 
